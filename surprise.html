@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Celebration 🎉</title>
+  <link rel="icon" href="rey.jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    #tsparticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    h1 {
+      margin-top: 15vh;
+      font-size: 3.5rem;
+      text-shadow: 0 0 20px rgba(255,255,255,0.9);
+      transition: all 1.2s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn {
+      padding: 18px 50px;
+      font-size: 1.4rem;
+      border: none;
+      border-radius: 50px;
+      background: #ff4081;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(255,64,129,0.6);
+      transition: all 0.4s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+    }
+
+    #blastBtn {
+      margin-top: 30px;
+    }
+
+    #secondaryBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 14px 30px;
+      font-size: 1.2rem;
+      background: #ff6f91;
+      box-shadow: 0 8px 25px rgba(255,111,145,0.5);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+      pointer-events: none;
+    }
+
+    #secondaryBtn.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .love {
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      font-size: 1.3rem;
+      z-index: 2;
+    }
+
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: url('rey.jpeg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center 65%;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+      z-index: 0;
+    }
+
+    .bg-overlay.show {
+      opacity: 0.5;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    .intro-message{
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+  margin-top: 30px;
+  line-height: 1.6;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255,255,255,0.8);
+  animation: floatText 4s ease-in-out infinite;
+}
+
+@keyframes floatText{
+  0%{ transform: translateY(0); }
+  50%{ transform: translateY(-10px); }
+  100%{ transform: translateY(0); }
+}
+
+.hide-intro{
+  opacity:0;
+  transform:translateY(-30px);
+  transition:all 0.8s ease;
+}
+  </style>
+
+  <!-- tsParticles + fireworks -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fireworks@2.12.0/tsparticles.preset.fireworks.bundle.min.js"></script>
+
+  <!-- canvas-confetti for colored paper blast -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <div id="tsparticles"></div>
+
+  <h1 id="mainTitle">Let's Celebrate 🎉</h1>
+  <p class="intro-message" id="introMessage">
+  Some days are special… but today is magical ✨ <br>
+  Because the world was blessed with someone truly amazing 💖 <br><br>
+  A tiny surprise is waiting just for you 🎁 <br>
+  Tap the button and let the celebration begin 🎉
+</p>
+  <button id="blastBtn" class="btn" onclick="blast()">Blast 🎉</button>
+  
+  <button id="secondaryBtn" class="btn" onclick="goNext()"> Hey Now See This </button>
+
+  <div class="bg-overlay" id="bgOverlay"></div>
+
+  <script>
+    async function blast() {
+      const blastBtn = document.getElementById('blastBtn');
+      const secondaryBtn = document.getElementById('secondaryBtn');
+      const title = document.getElementById('mainTitle');
+      const overlay = document.getElementById('bgOverlay');
+
+      const intro = document.getElementById("introMessage");
+      intro.classList.add("hide-intro");
+      // 1. Confetti explosion (colored paper blast)
+      confetti({
+        particleCount: 180,
+        spread: 90,
+        startVelocity: 45,
+        colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ff8000'],
+        origin: { y: 0.6 }
+      });
+
+      // Extra burst for more drama
+      setTimeout(() => {
+        confetti({
+          particleCount: 120,
+          angle: 60,
+          spread: 100,
+          origin: { x: 0.2, y: 0.7 }
+        });
+        confetti({
+          particleCount: 120,
+          angle: 120,
+          spread: 100,
+          origin: { x: 0.8, y: 0.7 }
+        });
+      }, 150);
+
+      // 2. Fade in photo
+      overlay.classList.add('show');
+
+      // 3. Change title
+      title.textContent = "🎉 Happy Birthday Reyyy! 🎂";
+      title.style.fontSize = "5.5rem";
+      title.style.marginTop = "8vh";
+
+      // 4. Hide original button with animation
+      blastBtn.style.opacity = "0";
+      blastBtn.style.transform = "scale(0.6)";
+      setTimeout(() => {
+        blastBtn.style.display = "none";
+      }, 500);
+
+      // 5. Show bottom-right button
+      setTimeout(() => {
+        secondaryBtn.classList.add('show');
+      }, 800);
+
+      // 6. Start fireworks
+      await loadFireworksPreset(tsParticles);
+      await tsParticles.load("tsparticles", {
+        preset: "fireworks",
+        fullScreen: { enable: true, zIndex: -1 },
+        background: { color: { value: "transparent" } },
+        detectRetina: true
+      });
+    }
+
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 500);
+
+
+    function goNext(){
+  window.location.href = "final.html";
+}
+  </script>
+
+</body>
+</html>

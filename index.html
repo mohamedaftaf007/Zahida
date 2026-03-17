@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<title>Zahida's ❣️ Birthday 🎂</title>
+<link rel="icon" href="rey.jpeg">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🎉 Happy Birthday My Dear Rey ❣️ 🎉</h1>
+    <p>Wishing you a day filled with love and happiness 😊!</p><br>
+
+    <button onclick="goToSurprise()">Let's celebrate 🥳</button>
+</div>
+
+<script>
+
+function goToSurprise() {
+    window.location.href = "popdesign.html";
+}
+
+/* Floating hearts */
+
+function createHeart() {
+
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+
+    heart.innerHTML = "💖";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(createHeart, 500);
+
+</script>
+
+</body>
+</html>

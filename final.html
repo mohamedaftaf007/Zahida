@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> For Rey 💌</title>
+  <link rel="icon" href="rey.jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #ff9a9e);
+      font-family: 'Quicksand', sans-serif;
+      overflow-x: hidden;
+      color: #4d2d3d;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* ─── Floating Hearts ─── */
+    .floating-heart {
+      position: fixed;
+      bottom: -30px;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { transform: translateY(-110vh) rotate(45deg); opacity: 0; }
+    }
+    /* ─── Envelope Section ─── */
+    .envelope-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+      z-index: 10;
+      transition: all 0.8s ease;
+    }
+    .envelope-section.hide {
+      opacity: 0;
+      transform: translateY(-40px);
+      pointer-events: none;
+    }
+    /* ─── Typewriter ─── */
+    .typewriter-wrapper {
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .typewriter {
+      display: inline-block;
+      font-family:'Dancing Script', cursive;
+      color: #0b0b0b;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      overflow: hidden;
+      border-right: 2px solid #db2777;
+      white-space: nowrap;
+      width: 0;
+      animation: typing 3s steps(42) 0.5s forwards, blink-caret 0.75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #db2777; }
+    }
+    .envelope-title {
+      font-family: 'Dancing Script', cursive;
+      color: #831843;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    /* ─── Envelope ─── */
+    .envelope-wrapper {
+      cursor: pointer;
+      perspective: 600px;
+    }
+    .envelope {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(145deg, #f8e8d0, #e8c9a0);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      animation: envelopeShake 2s ease-in-out infinite;
+    }
+    .envelope.opened { animation: none; }
+    .envelope-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(145deg, #f0d8b8, #ddb888);
+      border-top: 2px solid rgba(180,140,90,0.3);
+    }
+    .envelope-flap {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(180deg, #e8c9a0, #ddb888);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      z-index: 2;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .envelope.opened .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 0;
+    }
+    .heart-seal {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      z-index: 3;
+      animation: heartbeat 1.5s infinite;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.2); }
+    }
+    @keyframes envelopeShake {
+      0%, 100% { transform: rotate(0deg); }
+      10% { transform: rotate(-3deg); }
+      20% { transform: rotate(3deg); }
+      30% { transform: rotate(-2deg); }
+      40% { transform: rotate(2deg); }
+      50% { transform: rotate(-1deg); }
+      60% { transform: rotate(1deg); }
+      70% { transform: rotate(0deg); }
+    }
+    .tap-hint {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      margin-top: 16px;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+    /* ─── Letter Content ─── */
+    .letter-content {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      animation: letterFadeIn 0.8s ease-out;
+    }
+    .letter-content.visible {
+      display: flex;
+    }
+    @keyframes letterFadeIn {
+      from { opacity: 0; transform: translateY(60px) scale(0.92); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    /* ─── Letter Paper ─── */
+    .letter-paper {
+      width: 100%;
+      max-width: 520px;
+      background: linear-gradient(180deg, #fffef5, #fef3e2);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 60px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15), inset 0 0 80px rgba(255,250,230,0.5);
+      position: relative;
+    }
+
+    .letter-paper::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 32px;
+      right: 32px;
+      height: 1px;
+      background: rgba(200,160,100,0.3);
+    }
+    .letter-greeting {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: #db2777;
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+    .letter-body p {
+      color: #6b5040;
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .letter-sign {
+      text-align: right;
+      margin-top: 30px;
+    }
+    .letter-sign .small {
+      color: #9a8a7a;
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+    .letter-sign .big {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.6rem;
+      color: #db2777;
+      margin-top: 8px;
+    }
+    /* ─── Gallery Section ─── */
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 40px;
+      width: 100%;
+    }
+    .gallery-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: white;
+      margin-bottom: 8px;
+    }
+    .gallery-subtitle {
+      color:white;
+      letter-spacing: 0.2em;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    /* ─── Memory Grid: 4 per row ─── */
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 900px;
+    }
+    @media (min-width: 640px) {
+      .memory-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+    }
+    /* ─── Memory Card - Polaroid Style ─── */
+    .memory-card {
+      background: rgba(255,255,255,0.93);
+      padding: 6px;
+      border-radius: 4px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    }
+    .memory-card:hover {
+      transform: translateY(-10px) rotate(1.5deg) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+      z-index: 10;
+      position: relative;
+    }
+    .memory-card:active {
+      transform: scale(0.97);
+    }
+    .memory-img-wrap {
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    .memory-img-wrap img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      display: block;
+      background: #f3f4f6;
+      transition: transform 0.5s ease;
+    }
+    .memory-card:hover .memory-img-wrap img {
+      transform: scale(1.08);
+    }
+    .memory-caption {
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 500;
+      font-style: italic;
+      color: #8b5e6b;
+      margin-top: 8px;
+      padding-bottom: 4px;
+    }
+    /* ─── Lightbox ─── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(14px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: lbIn 0.3s ease;
+    }
+    .lightbox.active { display: flex; }
+    @keyframes lbIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .lightbox-inner {
+      position: relative;
+      max-width: 520px;
+      width: 100%;
+      animation: lbZoom 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes lbZoom {
+      from { transform: scale(0.8) translateY(30px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .lightbox-inner img {
+      width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    }
+    .lightbox-caption {
+      text-align: center;
+      color: rgba(255,255,255,0.9);
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      margin-top: 16px;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: -14px; right: -14px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.35); }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,0.35); }
+    .lightbox-prev { left: -50px; }
+    .lightbox-next { right: -50px; }
+    @media (max-width: 640px) {
+      .lightbox-prev { left: -4px; }
+      .lightbox-next { right: -4px; }
+    }
+    /* ─── Footer ─── */
+    .footer-text {
+      text-align: center;
+      margin-top: 60px;
+      padding-bottom: 40px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      color: white;
+    }
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+    @media (max-width: 500px) {
+      .envelope { width: 250px; height: 170px; }
+      .letter-paper { padding: 28px 20px; }
+    }
+    /* Stagger animation for cards */
+    .memory-card {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: cardIn 0.5s ease forwards;
+    }
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Hearts -->
+  <div id="heart-container"></div>
+  <!-- ═══ ENVELOPE SCREEN ═══ -->
+  <section class="envelope-section" id="envelopeSection">
+    <div class="typewriter-wrapper">
+      <span class="typewriter"> Oiii you have one Incoming message</span>
+    </div>
+    <h1 class="envelope-title">You have a special letter 💌</h1>
+    <div class="envelope-wrapper" onclick="openLetter()">
+      <div class="envelope" id="envelope">
+        <div class="envelope-bottom"></div>
+        <div class="envelope-flap"></div>
+        <div class="heart-seal">💌</div>
+      </div>
+    </div>
+    <p class="tap-hint">Tap to open ✨</p>
+  </section>
+  <!-- ═══ LETTER + GALLERY ═══ -->
+  <div class="letter-content" id="letterContent">
+    <!-- Letter -->
+    <div class="letter-paper">
+      <div class="letter-date">March 16, 2026</div>
+      <h2 class="letter-greeting">My Dearest Rey 💗</h2>
+      <div class="letter-body">
+        <p>March Feels Different.<br>A Little Softer.<br>A Little Warmer.</p>
+        <p>Maybe Because....... It Holds The Day My Favorite Person Was Born ❣️.</p>
+        <p>Rey Your smile has the power to brighten🤩 even the darkest😒 days. Every moment with you is a gift🎁 I treasure deeply. 💝</p>
+        <p>I hope this year brings you everything your heart desires — endless joy😃, new adventures🔥, new journey ✈️ , new surprises🎁 and all the love you deserve❣️. </p>
+        <p>It's not about a time it's about a person with whom you spent. Yes you're my favorite notification , you're my favorite person 
+          always.🌍✨</p>
+        <p>Thank you for every laugh,every beautiful memory we've created together. Here's to making a million more! 🥂</p>
+      </div>
+      <div class="letter-sign">
+        <p class="small">With all my love,</p>
+        <p class="big">Forever and always ❤️</p>
+      </div>
+    </div>
+    <!-- Gallery -->
+    <div class="gallery-header">
+      <h3 class="gallery-title">Our Gallery of Memories</h3>
+      <p class="gallery-subtitle">A collection of beautiful moments</p>
+    </div>
+    <div class="memory-grid" id="memoryGrid">
+      <!-- Cards are injected by JS -->
+    </div>
+    <p class="footer-text"> Here's to many more memories together! 💕🎉</p>
+  </div>
+  <!-- ═══ LIGHTBOX ═══ -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-inner" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+      <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">&#8249;</button>
+      <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">&#8250;</button>
+      <img id="lbImg" src="" alt="">
+      <p class="lightbox-caption" id="lbCaption"></p>
+    </div>
+  </div>
+  <script>
+    // ─── MEMORY DATA (replace URLs with your own photos) ───
+    const memories = [
+      { src: "1.jpeg", caption: "Our first picture in 6p 💕" },
+      { src: "12.jpeg", caption: "Always Sleeping 💤" },
+      { src: "2.jpeg", caption: "Cute 🥰" },
+      { src: "3.jpeg", caption: "good Moments in Ooty 😅" },
+      { src: "4.jpeg", caption: "Playfull us 😂" },
+      { src: "5.jpeg", caption: "First Selfi in Nandha 🍰" },
+      { src: "mehandi.jpg.jpeg", caption: "Mehandi Moment 🤗 (with a secret 🫣)" },
+      { src: "6.jpeg", caption: "Last night of Nandha 😞" },
+      { src: "7.jpg.jpeg", caption: "Broken 💔" },
+      { src: "9.jpeg", caption: "Manager Parakkkk 🔥" },
+      { src: "Two_child.jpg.jpeg", caption: "Two child in a frame 😍" },
+      { src: "xahi.jpg.jpeg", caption: "Beautiful you 🌸" },
+      { src: "10.jpeg", caption: "First Flight Journey ✈️" },
+      { src: "zahi.jpeg", caption: "Shine ✨" },
+      { src: "11.jpeg", caption: "Merry cristmas " },
+      { src: "stylish.jpg.jpeg", caption: "Stylish Tamilachi 💞" },
+    ];
+    // ─── BUILD GRID ───
+    const grid = document.getElementById('memoryGrid');
+    memories.forEach((m, i) => {
+      const card = document.createElement('div');
+      card.className = 'memory-card';
+      card.style.animationDelay = (i * 0.07) + 's';
+      card.onclick = () => openLightbox(i);
+      card.innerHTML = `
+        <div class="memory-img-wrap">
+          <img src="${m.src}" alt="${m.caption}" loading="lazy">
+        </div>
+        <p class="memory-caption">${m.caption}</p>
+      `;
+      grid.appendChild(card);
+    });
+    // ─── ENVELOPE ───
+    function openLetter() {
+      const env = document.getElementById('envelope');
+      const section = document.getElementById('envelopeSection');
+      const content = document.getElementById('letterContent');
+      env.classList.add('opened');
+      setTimeout(() => {
+        section.classList.add('hide');
+        setTimeout(() => {
+          section.style.display = 'none';
+          content.classList.add('visible');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 800);
+      }, 800);
+    }
+    // ─── LIGHTBOX ───
+    let currentLb = 0;
+    function openLightbox(index) {
+      currentLb = index;
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lbImg').src = memories[index].src.replace('w=400', 'w=800');
+      document.getElementById('lbCaption').textContent = memories[index].caption;
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(e) {
+      if (e && e.target !== document.getElementById('lightbox')) return;
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    // Close on × button click (no event check needed)
+    document.querySelector('.lightbox-close').onclick = function() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    };
+    function navLightbox(dir) {
+      currentLb = (currentLb + dir + memories.length) % memories.length;
+      document.getElementById('lbImg').src = memories[currentLb].src.replace('w=400', 'w=800');
+      document.getElementById('lbCaption').textContent = memories[currentLb].caption;
+    }
+    // Keyboard nav
+    document.addEventListener('keydown', (e) => {
+      const lb = document.getElementById('lightbox');
+      if (!lb.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navLightbox(-1);
+      if (e.key === 'ArrowRight') navLightbox(1);
+    });
+    // ─── FLOATING HEARTS ───
+    setInterval(() => {
+      const h = document.createElement('div');
+      h.className = 'floating-heart';
+      h.innerHTML = ['❤️','💕','💗','🩷'][Math.floor(Math.random()*4)];
+      h.style.left = Math.random()*100 + 'vw';
+      h.style.animationDuration = (Math.random()*3+4) + 's';
+      h.style.fontSize = (Math.random()*14+10) + 'px';
+      document.getElementById('heart-container').appendChild(h);
+      setTimeout(() => h.remove(), 7000);
+    }, 500);
+  </script>
+</body>
+</html>

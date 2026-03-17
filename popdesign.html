@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<title>Zahida's ❣️ Birthday 🎂</title>
+<link rel="icon" href="rey.jpeg">
+<link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* Same background as first page */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* align top */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Popup Card */
+        .popup-card {
+            margin-top: 80px;
+            background: white;
+            padding: 40px 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .popup-card h2 {
+            margin-bottom: 30px;
+            color: #ff4d88;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 30px;
+            margin: 0 15px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .yes-btn {
+            background-color: #ff4081;
+            color: white;
+        }
+
+        .yes-btn:hover {
+            background-color: #e73370;
+            transform: scale(1.05);
+        }
+
+        .no-btn {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .no-btn:hover {
+            background-color: #bbb;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="popup-card">
+        <h2>Are you excited to see? 💖</h2>
+        <button class="btn yes-btn" onclick="yesClicked()">Yes</button>
+        <button class="btn no-btn" onclick="noClicked()">No</button>
+    </div>
+
+<script>
+
+let noCount = 0;
+
+function yesClicked() {
+    const card = document.querySelector(".popup-card");
+
+    card.innerHTML = `
+        <h2>Have a look at it madam jiiiiiiiiii ❣️✨</h2>
+        <button class="btn yes-btn" onclick="surprise()">Let's Go 🚀</button>
+    `;
+}
+function surprise(){
+    window.location.href = "surprise.html";
+} 
+
+function noClicked() {
+
+    noCount++;
+
+    const message = document.querySelector(".popup-card h2");
+
+    if (noCount === 1) {
+        message.innerText = "Ohhh come on 😅 sencond chance are you excited?";
+    } 
+    else if (noCount === 2) {
+        message.innerText = "Think again 😜 It’s something special!";
+    } 
+    else if (noCount === 3) {
+        message.innerText = "Okay okay... last chance 😏 Are you excited now?";
+    } 
+    else {
+        message.innerText = "I know you're secretly excited 😂 Just press YES!";
+        document.querySelector(".no-btn").style.display = "none";
+    }
+
+}
+
+
+
+
+/* Floating hearts */
+
+function createHeart() {
+
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+
+    heart.innerHTML = "💖";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(createHeart, 600);
+
+
+</script>
+
+</body>
+</html>
